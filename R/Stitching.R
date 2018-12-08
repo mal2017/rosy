@@ -8,16 +8,16 @@
 #' @param gr A GRanges object.
 #' @param sd Stitching distance.
 stitch_internal <- function(gr, sd = 0) {
+  gr <- GenomicRanges::trim(gr)
   gr_expanded <- extend_merge_internal(gr = gr, width = sd)
   GenomicRanges::strand(gr_expanded) <- "*"
   GenomicRanges::strand(gr) <- "*"
 
   hits <- GenomicRanges::findOverlaps(gr, gr_expanded)
 
-  #gr$stitched_region <- S4Vectors::subjectHits(hits)
+  gr$stitched_region <- S4Vectors::subjectHits(hits)
 
-  #GenomicRanges::split(gr, as.factor(gr$stitched_region))
-  hits
+  GenomicRanges::split(gr, as.factor(gr$stitched_region))
 }
 
 
