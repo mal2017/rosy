@@ -1,11 +1,17 @@
 Package: rosy
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Super enhancers with Bioconductor.
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Author: Matt Lawlor
+Maintainer: Matt Lawlor <matt.a.lawlor@gmail.com>
+Description: Stitches regions derived from enrichment-based NGS assays
+    such as ChIP-seq and ATAC-seq and ranks them by aggregate signal. 
+    This a common heuristic for finding context-specifc regulatory regions.
+License: MIT
 Encoding: UTF-8
 LazyData: true
+Imports:
+  SummarizedExperiment,
+  GenomicAlignments,
+  S4Vectors
+RoxygenNote: 6.0.1
