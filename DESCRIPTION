@@ -13,5 +13,10 @@ LazyData: true
 Imports:
   SummarizedExperiment,
   GenomicAlignments,
-  S4Vectors
+  S4Vectors,
+  BiocGenerics,
+  GenomicFeatures,
+  tibble,
+  dplyr,
+  purrr
 RoxygenNote: 6.0.1

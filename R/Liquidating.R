@@ -4,7 +4,7 @@
 #' @param reads A bam file path, GRanges list, or other object holding reads.
 #' @return RangedSummarizedExperiment
 liquidate_internal <- function(features, reads, paired = F) {
-  res <- GenomicAlignments::summarizeOverlaps(features = features,
+  GenomicAlignments::summarizeOverlaps(features = features,
                                        reads = reads,
                                        inter.feature = T,
                                        singleEnd = !paired)
@@ -15,8 +15,8 @@ liquidate_internal <- function(features, reads, paired = F) {
 #' @param rse A RangedSummarizedExperiment
 #' @return RangedSummarizedExperiment
 normalize_internal <- function(rse) {
-  mat <- BiocGenerics::counts(rse)
+  mat <- SummarizedExperiment::assay(rse,i = "counts")
   norm_factor <- 1/(colSums(mat)/1e6)
-  BiocGenerics::counts(rse) <- t(t(mat)*norm_factor)
+  SummarizedExperiment::assay(rse,i = "counts") <- t(t(mat)*norm_factor)
   rse
 }
