@@ -17,6 +17,6 @@ liquidate_internal <- function(features, reads, paired = F) {
 normalize_internal <- function(rse) {
   mat <- SummarizedExperiment::assay(rse,i = "counts")
   norm_factor <- 1/(colSums(mat)/1e6)
-  SummarizedExperiment::assay(rse,i = "counts") <- t(t(mat)*norm_factor)
+  SummarizedExperiment::assay(rse,i = "readInPeakNorm") <- t(t(mat)*norm_factor)
   rse
 }
