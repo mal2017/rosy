@@ -8,8 +8,7 @@
 \usage{
 rosy(regions, reads, paired, colData, txdb, stitchDist = 12500)
 
-
-  \S4method{rosy}{character,character,logical,data.frame,TxDb,numeric}(regions,
+\S4method{rosy}{character,character,logical,data.frame,TxDb,numeric}(regions,
   reads, paired, colData, txdb, stitchDist = 12500)
 }
 \arguments{

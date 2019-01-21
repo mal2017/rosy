@@ -4,8 +4,8 @@
 \alias{rosy_internal}
 \title{Run rosy on a single sample.}
 \usage{
-rosy_internal(regions, reads, paired = F, colData = NULL,
-  txdb = NULL, stitchDist = "optimize")
+rosy_internal(regions, reads, paired = F, colData = NULL, txdb = NULL,
+  stitchDist = "optimize")
 }
 \arguments{
 \item{regions}{GRanges.}
