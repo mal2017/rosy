@@ -16,7 +16,7 @@ stitch_internal <- function(gr, sd = 0) {
   gr <- GenomicRanges::trim(gr)
 
   # expand, remove overlaps, trim again
-  gr_expanded <- extend_merge_internal(gr = gr, width = sd)
+  gr_expanded <- extend_merge_internal(gr = gr, width = sd/2)
   gr_expanded <- GenomicRanges::reduce(gr_expanded)
   gr_expanded <- GenomicRanges::trim(gr_expanded)
 
@@ -59,16 +59,13 @@ get_total_constituent_width_internal <- function(grl) {
 
 #' Get the total with of a GRL element.
 get_grl_entry_width_internal <- function(x) {
-  max(c(start(x), end(x))) - min(c(start(x), end(x)))
+  #max(end(x)) - min(start(x))
+  width(range(x))
 }
 
 #' Get all GRL entry widths.
 get_stitch_region_widths_internal <- function(grl) {
   vapply(grl, get_grl_entry_width_internal,FUN.VALUE = c(1))
-}
-
-get_total_stitch_region_width_internal <- function(grl) {
-
 }
 
 named_container <- function(vals,nms) {
@@ -80,7 +77,13 @@ named_container <- function(vals,nms) {
 #' Get the stitch stats for a range of distances so rosy can
 #' internally choose an optimal distance.
 get_stitch_stats_internal <- function(gr) {
-  tbl <- tibble::tibble(STEP = seq(0, 2000, by = 500))
+  # don't want to think abt strands
+  GenomicRanges::strand(gr) <- "*"
+
+  # not beyound actual chromosome bounds
+  gr <- GenomicRanges::reduce(gr)
+  gr <- GenomicRanges::trim(gr)
+  tbl <- tibble::tibble(STEP = seq(0, 1000, by = 500))
                  #GRL = NULL,
                  #NUM_REGIONS = NULL,
                  #TOTAL_CONSTIT_WIDTH  = get_total_constituent_width_internal(gr),
@@ -93,20 +96,29 @@ get_stitch_stats_internal <- function(gr) {
                  #MEAN_STITCH_FRACTION =  NULL,
                  #MED_STITCH_FRACTION = NULL)
 
+  # to speed up computation later, we'll only do these once.
+  constit_widths <- GenomicRanges::width(gr)
+  tot_constit_width <- sum(constit_widths)
+  mean_constit_width <- mean(constit_widths)
+  med_constit_width <- median(constit_widths)
 
-  tot_constit_width <- get_total_constituent_width_internal(gr)
-
-
-  # for each possible stitching configuration:
+  # for each possible stitching configuration make an entry in the tbl.
   tbl <- dplyr::mutate(tbl, GRL = purrr::map(STEP, .f = function(x) stitch_internal(gr, sd = x)))
 
-  # a list of vectors of widths
-  stitch_region_widths <- named_container(tbl$GRL, tbl$STEP)
+  # to speed up computation later, we'll only do these once.
+  # a list of GR objects that correspond to the full widths of stitched regions:
+  # e.g. x$`500` is a GR object.
+  stitch_regions_max_extent <- lapply(named_container(tbl$GRL, tbl$STEP), FUN=function(x) unlist(range(x)))
+  stitch_regions_widths <- lapply(stitch_regions_max_extent, GenomicRanges::width)
+
 
   tbl <- dplyr::mutate(tbl, NUM_REGIONS = purrr::map_int(GRL,.f=length))
   tbl <- dplyr::mutate(tbl, TOTAL_CONSTIT_WIDTH = tot_constit_width)
-  #tbl <- dplyr::mutate(tbl,TOTAL_STITCH_REGION_WIDTH = purrr::map(STEP, .f = function(x) sum(stitch_region_widths[[as.character(x)]])))
-
-
+  tbl <- dplyr::mutate(tbl, TOTAL_STITCH_REGION_WIDTH = purrr::map_int(stitch_regions_widths,
+                                                                       .f=function(x) sum(x)))
+  tbl <- dplyr::mutate(tbl, MEAN_CONSTIT_WIDTH = mean_constit_width)
+  tbl <- dplyr::mutate(tbl, MED_CONSTIT_WIDTH = med_constit_width) #TODO: is this right?
+  tbl <- dplyr::mutate(tbl, MEAN_REGION_WIDTH = purrr::map_dbl(stitch_regions_widths,mean))
+  tbl <- dplyr::mutate(tbl, MED_REGION_WIDTH = purrr::map_dbl(stitch_regions_widths,median))
   tbl
 }
