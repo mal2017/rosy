@@ -4,7 +4,7 @@
 #' @param paired Logical indicating paired-end reads.
 #' @param colData dataframe with sample information.
 rosy_internal <- function(regions, reads, paired = F,
-                 colData = NULL, txdb = NULL, stitchDist = "optimize") {
+                 colData = NULL, txdb = NULL, stitchDist = 12500) {
 
   if (any(lapply(list(regions, paired, colData), length) > 1)) {
     stop(paste("Only the `reads` arg allows for vectors and lists.",
