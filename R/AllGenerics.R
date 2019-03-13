@@ -11,8 +11,8 @@ setGeneric("stitch", function(object, stitchDist=12500) standardGeneric("stitch"
 #' @param paired Logical indicating paired-end reads.
 #' @param colData dataframe with sample information.
 #' @export
-setGeneric("rosy", function(regions, reads, paired,
-                            colData, txdb, stitchDist=12500) standardGeneric("rosy"))
+setGeneric("rosy", function(regions, reads, paired=F,
+                            colData, txdb=NULL, stitchDist=12500) standardGeneric("rosy"))
 
 
 
@@ -39,15 +39,12 @@ setMethod("stitch", signature(object = "character", stitchDist = "numeric"),
 
 #' @rdname rosy
 setMethod("rosy", signature(regions = "character", reads = "character",
-                            paired = "logical", colData = "data.frame",
-                            txdb = "TxDb",
-                            stitchDist = "numeric"),
-          function(regions, reads, paired,
-                   colData, txdb, stitchDist=12500) {
-            rosy_internal(regions = regions,
-                          reads = reads,
-                          paired = paired,
-                          txdb = txdb,
-                          colData = colData,
-                          stitchDist = stitchDist)
+                            colData = "data.frame"),
+          function(regions, reads, paired=F,
+                   colData, txdb=NULL, stitchDist=12500) {
+            rose_single_internal(regions = regions[1],
+                          reads = reads[1],
+                          paired = paired[1],
+                          colData = colData[1,],
+                          stitchDist = stitchDist[1])
           })

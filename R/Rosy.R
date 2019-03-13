@@ -1,4 +1,4 @@
-#' Run rosy for a single sample.
+#' Run rose stitching + quant for a single sample.
 #'
 #' Will take only a single set of regions and reads.
 #'
@@ -6,7 +6,7 @@
 #' @param reads Object or path to file containing reads.
 #' @param paired Logical indicating paired-end reads.
 #' @param colData dataframe with sample information.
-rosy_internal <- function(regions, reads, paired = F,
+rose_single_internal <- function(regions, reads, paired = F,
                  colData = NULL, stitchDist = 12500) {
 
   if (length(list(regions)) > 1 | length(list(reads)) > 1) {
@@ -25,12 +25,13 @@ rosy_internal <- function(regions, reads, paired = F,
                             reads = unlist(reads),
                             paired = paired)
 
-  # MRIP/BP normalization
   rse <- normalize_mrip_internal(rse)
+
   rse <- normalize_perbp_internal(rse)
 
-  # add coldata
   SummarizedExperiment::colData(rse) <- S4Vectors::DataFrame(colData)
 
   rse
 }
+
+# TODO add a multiple rose wrapper

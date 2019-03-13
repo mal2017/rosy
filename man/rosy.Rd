@@ -3,14 +3,14 @@
 \docType{methods}
 \name{rosy}
 \alias{rosy}
-\alias{rosy,character,character,logical,data.frame,TxDb,numeric-method}
+\alias{rosy,character,character,ANY,data.frame-method}
 \title{Run rosy.}
 \usage{
-rosy(regions, reads, paired, colData, txdb, stitchDist = 12500)
+rosy(regions, reads, paired = F, colData, txdb = NULL,
+  stitchDist = 12500)
 
-
-  \S4method{rosy}{character,character,logical,data.frame,TxDb,numeric}(regions,
-  reads, paired, colData, txdb, stitchDist = 12500)
+\S4method{rosy}{character,character,ANY,data.frame}(regions, reads,
+  paired = F, colData, txdb = NULL, stitchDist = 12500)
 }
 \arguments{
 \item{regions}{GRanges, GRangesList, or path to file.}
