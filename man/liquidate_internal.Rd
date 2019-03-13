@@ -15,5 +15,5 @@ liquidate_internal(features, reads, paired = F)
 RangedSummarizedExperiment
 }
 \description{
-Find signal from a bam within regions.
+Generic behavior is handled by GenomicAlignments. This is a thin wrapper.
 }

@@ -15,7 +15,7 @@ bindRseCols <- function(rses) {
 
   colnames(mat) <- make.unique(colnames(mat))
 
-  SummarizedExperiment(list(counts = mat),
+  SummarizedExperiment::SummarizedExperiment(list(counts = mat),
                        rowRanges = SummarizedExperiment::rowRanges(rses[[1]]))
 }
 

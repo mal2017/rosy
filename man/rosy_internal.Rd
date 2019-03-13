@@ -2,10 +2,10 @@
 % Please edit documentation in R/Rosy.R
 \name{rosy_internal}
 \alias{rosy_internal}
-\title{Run rosy on a single sample.}
+\title{Run rosy for a single sample.}
 \usage{
 rosy_internal(regions, reads, paired = F, colData = NULL,
-  txdb = NULL, stitchDist = "optimize")
+  stitchDist = 12500)
 }
 \arguments{
 \item{regions}{GRanges.}
@@ -17,5 +17,5 @@ rosy_internal(regions, reads, paired = F, colData = NULL,
 \item{colData}{dataframe with sample information.}
 }
 \description{
-Run rosy on a single sample.
+Will take only a single set of regions and reads.
 }

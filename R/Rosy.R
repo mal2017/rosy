@@ -1,41 +1,36 @@
-#' Run rosy on a single sample.
+#' Run rosy for a single sample.
+#'
+#' Will take only a single set of regions and reads.
+#'
 #' @param regions GRanges.
 #' @param reads Object or path to file containing reads.
 #' @param paired Logical indicating paired-end reads.
 #' @param colData dataframe with sample information.
 rosy_internal <- function(regions, reads, paired = F,
-                 colData = NULL, txdb = NULL, stitchDist = 12500) {
+                 colData = NULL, stitchDist = 12500) {
 
-  if (any(lapply(list(regions, paired, colData), length) > 1)) {
-    stop(paste("Only the `reads` arg allows for vectors and lists.",
-         "Make sure single objects are supplied for other args."))
+  if (length(list(regions)) > 1 | length(list(reads)) > 1) {
+    stop("Provide only a single set of reads and regions to this function.")
   }
 
-  if (is.vector(reads) & length(reads) > 1 & is.null(names(reads))) {
-    stop("You must name the items in your `reads` vector.")
-  } else if (is.vector(reads) & length(reads) > 1 & !is.null(colData)) {
-    if (!all(names(reads) %in% rownames(colData))) {
-      stop("Not all of your named samples are present in `colData`!")
-    }
-    colData <- colData[names(reads),]
+  if (is.null(colData)) {
+    stop("Please provide a dataframe to the coldata argument.")
   }
 
-  # TODO: 0. get optimum stitching distance if called for
-  st <- stitch(regions, stitchDist = stitchDist)
+  stopifnot(nrow(colData) == 1)
 
-  # TODO parallelize this
+  st <- stitch(unlist(regions), stitchDist = stitchDist)
+
   rse <- liquidate_internal(features = st,
-                            reads = reads,
+                            reads = unlist(reads),
                             paired = paired)
 
-  # MRIP normalization
-  rse <- normalize_internal(rse)
+  # MRIP/BP normalization
+  rse <- normalize_mrip_internal(rse)
+  rse <- normalize_perbp_internal(rse)
 
   # add coldata
   SummarizedExperiment::colData(rse) <- S4Vectors::DataFrame(colData)
-
-  # TODO: 1. call supers
-  # TODO: 2. get distances and constituent distances
 
   rse
 }

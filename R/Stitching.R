@@ -24,10 +24,10 @@ stitch_internal <- function(gr, sd = 0) {
   hits <- GenomicRanges::findOverlaps(gr, gr_expanded)
 
   # init new col with empty
-  mcols(gr)$stitched_region <- NA
+  GenomicRanges::mcols(gr)$stitched_region <- NA
 
   # to those cols with any overlaps, add subject hits
-  mcols(gr)[queryHits(hits),"stitched_region"] <- S4Vectors::subjectHits(hits)
+  GenomicRanges::mcols(gr)[S4Vectors::queryHits(hits),"stitched_region"] <- S4Vectors::subjectHits(hits)
 
   # split into grl by the subject hits
   GenomicRanges::split(gr, as.factor(gr$stitched_region))
