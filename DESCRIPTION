@@ -1,12 +1,12 @@
 Package: rosy
 Type: Package
-Title: Super enhancers with Bioconductor.
+Title: Super enhancers in R.
 Version: 0.1.0
 Author: Matt Lawlor
 Maintainer: Matt Lawlor <matt.a.lawlor@gmail.com>
 Description: Stitches regions derived from enrichment-based NGS assays
-    such as ChIP-seq and ATAC-seq and ranks them by aggregate signal. 
-    This a common heuristic for finding context-specifc regulatory regions.
+    such as ChIP-seq and ATAC-seq and ranks them by aggregated signal. 
+    This a common heuristic for finding regulatory regions.
 License: MIT
 Encoding: UTF-8
 LazyData: true
@@ -18,5 +18,13 @@ Imports:
   GenomicFeatures,
   tibble,
   dplyr,
-  purrr
+  purrr,
+  Organism.dplyr,
+  GenomeInfoDb,
+  BSgenome
+Suggests:
+  BSgenome.Hsapiens.UCSC.hg19,
+  TxDb.Hsapiens.UCSC.hg19.knownGene,
+  org.Hs.eg.db,
+  OrganismDbi
 RoxygenNote: 6.1.1

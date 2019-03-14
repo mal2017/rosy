@@ -83,7 +83,7 @@ get_stitch_stats_internal <- function(gr) {
   # not beyound actual chromosome bounds
   gr <- GenomicRanges::reduce(gr)
   gr <- GenomicRanges::trim(gr)
-  tbl <- tibble::tibble(STEP = seq(0, 1000, by = 500))
+  tbl <- tibble::tibble(STEP = seq(0, 12500, by = 500))
                  #GRL = NULL,
                  #NUM_REGIONS = NULL,
                  #TOTAL_CONSTIT_WIDTH  = get_total_constituent_width_internal(gr),

@@ -5,10 +5,10 @@
 \title{Run rose stitching + quant for a single sample.}
 \usage{
 rose_single_internal(regions, reads, paired = F, colData = NULL,
-  stitchDist = 12500)
+  stitchDist = 12500, se_cutoff = "optimize")
 }
 \arguments{
-\item{regions}{GRanges.}
+\item{regions}{GRanges or path to bed.}
 
 \item{reads}{Object or path to file containing reads.}
 

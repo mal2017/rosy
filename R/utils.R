@@ -42,3 +42,23 @@ equivalentAssays <- function(rse1, rse2) {
     identical(names(SummarizedExperiment::assays(rse1)),
               names(SummarizedExperiment::assays(rse2)))
 }
+
+#' Rename GRangesList in human readable coords.
+seGrlNames <-  function(grl) {
+  lapply(grl, FUN=function(x) {
+    paste0(getChrNameFromGr(x),
+           ":",
+           min(GenomicRanges::start(x)),
+           "-",
+           max(GenomicRanges::end(x)))
+  })
+}
+
+#' Get 1 chr name from a GR and confirm all are from same level.
+getChrNameFromGr <- function(gr) {
+  sn <- unique(as.character(GenomicRanges::seqnames(gr)))
+
+  stopifnot(length(sn) == 1)
+
+  sn
+}

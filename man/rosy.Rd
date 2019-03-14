@@ -3,23 +3,30 @@
 \docType{methods}
 \name{rosy}
 \alias{rosy}
-\alias{rosy,character,character,ANY,data.frame-method}
+\alias{rosy,GRanges,character,ANY,data.frame-method}
 \title{Run rosy.}
 \usage{
 rosy(regions, reads, paired = F, colData, txdb = NULL,
-  stitchDist = 12500)
+  stitchDist = 12500, se_cutoff = "optimize", exclude = NULL)
 
-\S4method{rosy}{character,character,ANY,data.frame}(regions, reads,
-  paired = F, colData, txdb = NULL, stitchDist = 12500)
+\S4method{rosy}{GRanges,character,ANY,data.frame}(regions, reads,
+  paired = F, colData, txdb = NULL, stitchDist = 12500,
+  se_cutoff = "optimize", exclude = NULL)
 }
 \arguments{
-\item{regions}{GRanges, GRangesList, or path to file.}
+\item{regions}{GRanges, list of GRanges, GRangesList, path to file, or list of paths.}
 
-\item{reads}{Object or path to file containing reads.}
+\item{reads}{Object or path to file containing reads, or list.}
 
-\item{paired}{Logical indicating paired-end reads.}
+\item{paired}{Logical indicating paired-end reads or list.}
 
 \item{colData}{dataframe with sample information.}
+
+\item{stitchDist}{Enhancer stitching distance.}
+
+\item{se_cutoff}{Either 'optimize' or an integer indicating the top n enhancers to consider as SE.}
+
+\item{exclude}{GRanges of regions to exclude}
 }
 \description{
 Run rosy.
