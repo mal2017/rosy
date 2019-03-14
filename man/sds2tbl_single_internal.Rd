@@ -5,8 +5,7 @@
 \title{Convert an SE dataset to a tibble for plotting and downstream
 querying.}
 \usage{
-sds2tbl_single_internal(sds, txdb = "TxDb.Hsapiens.UCSC.hg19.knownGene",
-  bsgenome = NULL)
+sds2tbl_single_internal(sds)
 }
 \description{
 Convert an SE dataset to a tibble for plotting and downstream

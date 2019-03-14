@@ -4,8 +4,7 @@
 \alias{sds2tbl}
 \title{rdname sds2tbl}
 \usage{
-sds2tbl(sds, txdb = "TxDb.Hsapiens.UCSC.hg19.knownGene",
-  bsgenome = NULL)
+sds2tbl(sds)
 }
 \description{
 Convert an SE dataset to a tibble for plotting and downstream
