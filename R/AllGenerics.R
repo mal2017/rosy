@@ -58,8 +58,6 @@ setMethod("rosy", signature(regions = "GRanges", reads = "character",
                           paired = paired[1],
                           colData = colData[1,],
                           stitchDist = stitchDist[1])
-            if (!is.null(txdb)) {
-              SummarizedExperiment::rowData(rse)[,"ClosestTx"] <- closest_gene_internal(GenomicRanges::GRanges(rownames(rse)), txdb)
-            }
+
             return(rse)
           })

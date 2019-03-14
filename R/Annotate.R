@@ -16,13 +16,11 @@ closest_gene_internal <- function(gr, txdb) {
 #'
 #' @importFrom magrittr %>%
 #' @export
-sds2tbl <- function(sds,
-                    txdb = "TxDb.Hsapiens.UCSC.hg19.knownGene",
-                    bsgenome = NULL) {
+sds2tbl <- function(sds) {
   # TODO check validity as SDS
 
   tl <- lapply(colnames(sds), FUN=function(x) sds[,x]) %>%
-        lapply(sds2tbl_single_internal, txdb = txdb, bsgenome = bsgenome)
+        lapply(sds2tbl_single_internal)
 
   dplyr::bind_rows(tl)
 }
@@ -32,9 +30,7 @@ sds2tbl <- function(sds,
 #' querying.
 #'
 #' @importFrom magrittr %>%
-sds2tbl_single_internal <- function(sds,
-                    txdb = "TxDb.Hsapiens.UCSC.hg19.knownGene",
-                    bsgenome = NULL) {
+sds2tbl_single_internal <- function(sds) {
 
   stopifnot(ncol(sds)==1)
 
