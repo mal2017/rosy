@@ -1,5 +1,9 @@
 call_supers_internal <- function(rse, set_rnk =F, assay="readInPeakNormPerBP") {
 
+  mat <- matrix(nrow = nrow(rse), ncol = ncol(rse))
+  colnames(mat) <- colnames(rse)
+  rownames(mat) <- rownames(rse)
+
   for (s in colnames(rse)) {
     signals <- SummarizedExperiment::assay(rse[,s], i = assay)[,1]
     if (set_rnk) {
@@ -7,9 +11,10 @@ call_supers_internal <- function(rse, set_rnk =F, assay="readInPeakNormPerBP") {
     } else {
       cutoff <- call_super_cutoff_internal(signals)
     }
-    print(cutoff)
+    mat[,s] <- signals >= cutoff
   }
-
+  SummarizedExperiment::assay(rse, i = "isSuper") <- mat
+  rse
 }
 
 
