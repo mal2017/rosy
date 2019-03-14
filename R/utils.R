@@ -1,22 +1,24 @@
 #' Combine RangedSummarizedExperiments
 #' @rdname bindRseCols
-#' @param rses A list of RangedSummarizedExperiments
+#' @param rse1 RangedSummarizedExperiment
+#' @param rse2 RangedSummarizedExperiment
 #' @export
-bindRseCols <- function(rses) {
+bindRseCols <- function(rse1, rse2) {
 
-  if (!is.list(rses)) {
-    rses <- list(rses)
-  }
+  stopifnot(!anyDuplicated(c(colnames(rse1),colnames(rse2))))
 
-  stopifnot(all(lapply(rses,
-                       FUN = function(x) equivalentRanges(rses[[1]], x))))
+  stopifnot(equivalentAssays(rse1, rse2))
 
-  mat <- do.call(cbind, lapply(rses, FUN = SummarizedExperiment::assay))
+  mats <- lapply(names(SummarizedExperiment::assays(rse1)),
+                 FUN = function(x) {
+                   cbind(SummarizedExperiment::assay(rse1, i=x),
+                         SummarizedExperiment::assay(rse2, i=x))
+          })
 
-  colnames(mat) <- make.unique(colnames(mat))
+  names(mats) <- names(SummarizedExperiment::assays(rse1))
 
-  SummarizedExperiment::SummarizedExperiment(list(counts = mat),
-                       rowRanges = SummarizedExperiment::rowRanges(rses[[1]]))
+  SummarizedExperiment::SummarizedExperiment(mats,
+                 rowRanges = SummarizedExperiment::rowRanges(rse1))
 }
 
 #' Check two RangedSummarizedExperiments use the same ranges
@@ -27,4 +29,16 @@ bindRseCols <- function(rses) {
 equivalentRanges <- function(rse1, rse2) {
   identical(SummarizedExperiment::rowRanges(rse1),
             SummarizedExperiment::rowRanges(rse2))
+}
+
+#' Check two RangedSummarizedExperiments have the same
+#' assays.
+#' @rdname equivalentAssays
+#' @param rse1 A RangedSummarizedExperiment
+#' @param rse2 A RangedSummarizedExperiment
+#' @export
+equivalentAssays <- function(rse1, rse2) {
+  equivalentRanges(rse1,rse2) &
+    identical(names(SummarizedExperiment::assays(rse1)),
+              names(SummarizedExperiment::assays(rse2)))
 }

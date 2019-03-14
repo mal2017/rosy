@@ -1,3 +1,4 @@
+#' Call 'supers' on a RSE. Adds to an assay slot named 'isSuper.'
 call_supers_internal <- function(rse, set_rnk =F, assay="readInPeakNormPerBP") {
 
   mat <- matrix(nrow = nrow(rse), ncol = ncol(rse))

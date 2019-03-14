@@ -4,10 +4,12 @@
 \alias{bindRseCols}
 \title{Combine RangedSummarizedExperiments}
 \usage{
-bindRseCols(rses)
+bindRseCols(rse1, rse2)
 }
 \arguments{
-\item{rses}{A list of RangedSummarizedExperiments}
+\item{rse1}{RangedSummarizedExperiment}
+
+\item{rse2}{RangedSummarizedExperiment}
 }
 \description{
 Combine RangedSummarizedExperiments

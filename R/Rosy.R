@@ -31,6 +31,8 @@ rose_single_internal <- function(regions, reads, paired = F,
 
   SummarizedExperiment::colData(rse) <- S4Vectors::DataFrame(colData)
 
+  rownames(rse) <- as.character(SummarizedExperiment::rowRanges(rse))
+
   rse
 }
 
