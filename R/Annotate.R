@@ -38,7 +38,7 @@ sds2tbl_single_internal <- function(sds,
 
   stopifnot(ncol(sds)==1)
 
-  rngs <- SummarizedExperiment::rowRanges(rseA)
+  rngs <- SummarizedExperiment::rowRanges(sds)
 
   result <- tibble::tibble(locus = rownames(sds),
                            sample = colnames(sds),
