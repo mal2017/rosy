@@ -56,7 +56,7 @@ setMethod("rosy", signature(regions = "GRanges", reads = "character",
             rse <- rose_single_internal(regions = regions,
                           reads = reads[1],
                           paired = paired[1],
-                          colData = colData[1,],
+                          colData = colData,
                           stitchDist = stitchDist[1])
 
             return(rse)
